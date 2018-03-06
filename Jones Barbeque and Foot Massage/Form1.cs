@@ -26,13 +26,16 @@ namespace Jones_Barbeque_and_Foot_Massage
         int burgerNumber, hotdogNumber, massageNumber = 0;
         //Setting up variables that require decimal values
         double total, change, tendered, subtotal, taxTotal;
-        //setting up soundplayer for song
+        //setting up soundplayer for song and printer sound
         SoundPlayer BBQSong = new SoundPlayer(Properties.Resources.JONESBBQ);
         SoundPlayer Printer = new SoundPlayer(Properties.Resources.printer);
         private void buttonNewOrder_Click(object sender, EventArgs e)
         {
+            //setting up graphics 
             Graphics g = this.CreateGraphics();
+            //Clearing the background
             g.Clear(Color.FromArgb(255, 192, 192));
+            //returning everything to it's original values
             textboxBurger.Text = "0";
             textboxFootMassage.Text = "0";
             textboxHotdog.Text = "0";
@@ -41,23 +44,29 @@ namespace Jones_Barbeque_and_Foot_Massage
             labelSubtotalNumbers.Text = "0.00";
             labelTaxNumbers.Text = "0.00";
             labelTotalNumbers.Text = "0.00";
+            //Erasing catch label
             labelCatch.Text = "";
+            //Play the song for the new customer
             BBQSong.Play();
 
         }
 
         private void buttonPrintReciept_Click(object sender, EventArgs e)
         {
+            //If there was more tendered than total cost, print reciept
             if (change > 0)
             {   //Make catch label dissapear
                 labelCatch.Visible = false;
-                //Setting up graphics
+                //Setting up graphics and brushes for the reciept
                 Graphics g = this.CreateGraphics();
                 Font textFont = new Font("Consolas", 7, FontStyle.Bold);
                 SolidBrush textBrush = new SolidBrush(Color.Black);
                 SolidBrush rectangleBrush = new SolidBrush(Color.White);
+                //Play printer sound
                 Printer.Play();
+                //Draw box for reciept
                 g.FillRectangle(rectangleBrush, 217, 50, 200, 325);
+                //Writing out all reciept info
                 Thread.Sleep(550);
                 g.DrawString("Jones Barbeque and Foot Massage", textFont, textBrush, 235, 60);
                 Thread.Sleep(550);
@@ -83,7 +92,7 @@ namespace Jones_Barbeque_and_Foot_Massage
                 Thread.Sleep(550);
                 g.DrawString("Have a nice day!", textFont, textBrush, 273, 320);
             }
-            
+            //if there is not enough tendered, provide insufficient funds message
             else
                 labelCatch.Text = "Insufficient Funds.";
             
@@ -91,22 +100,26 @@ namespace Jones_Barbeque_and_Foot_Massage
 
         private void buttonCalculateChange_Click(object sender, EventArgs e)
         {
+
             try
             {
+                //Calculate change needed
                 labelCatch.Text = "";
                 tendered = Convert.ToDouble(textboxTendered.Text);
                 change = tendered - total;
+                //If insufficient funds, display message and set change number even
                 if (change < 0)
                 {
                     labelCatch.Text = "Insufficient Funds.";
                     labelChangeNumber.Text = ("0.00");
                 }
-
+                //If enough tendered, set the change label to how much change was calculated
                 else
                 {
                     labelChangeNumber.Text = change.ToString("C");
                 }
             }
+            //If amount tendered is not a number, display message reminding you to give up your hard earned cash
             catch
             {
                 labelCatch.Text = "Please make sure you are inputting a numerical value for amount tendered.";
@@ -118,9 +131,11 @@ namespace Jones_Barbeque_and_Foot_Massage
         public Form1()
         {
             InitializeComponent();
+            //Set text of each item's textbox to 0
             textboxBurger.Text = "0";
             textboxHotdog.Text = "0";
             textboxFootMassage.Text = "0";
+            //Play the song created by the most talented musician on earth
             BBQSong.Play();
 
 
@@ -130,6 +145,7 @@ namespace Jones_Barbeque_and_Foot_Massage
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
+            //Check if any of the textboxes are blank, sets them to 0
             if (textboxBurger.Text == "")
                 textboxBurger.Text = "0";
             if (textboxHotdog.Text == "")
@@ -144,15 +160,23 @@ namespace Jones_Barbeque_and_Foot_Massage
                 hotdogNumber = Convert.ToInt16(textboxHotdog.Text);
                 massageNumber = Convert.ToInt16(textboxFootMassage.Text);
                 
+                //Math to calculate subtotal
                 subtotal = burgerNumber * BURGER + hotdogNumber * HOTDOG + massageNumber * FOOTMASSAGE;
+                //Display subtotal
                 labelSubtotalNumbers.Text = subtotal.ToString("C");
+                //Erase catch label
                 labelCatch.Text = "";
 
+                //Calculate tax 
                 taxTotal = subtotal * TAX;
+                //Display tax
                 labelTaxNumbers.Text = taxTotal.ToString("C");
+                //Calculate total
                 total = subtotal + taxTotal;
+                //Display total
                 labelTotalNumbers.Text = total.ToString("C");
             }
+            //If non-whole numbers are inputted, display warning
             catch
             {
                 labelCatch.Text = "Please make sure you are inputting whole numbers.";
