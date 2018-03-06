@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonCalculate = new System.Windows.Forms.Button();
             this.textboxBurger = new System.Windows.Forms.TextBox();
             this.textboxHotdog = new System.Windows.Forms.TextBox();
@@ -322,6 +323,7 @@
             this.Controls.Add(this.textboxHotdog);
             this.Controls.Add(this.textboxBurger);
             this.Controls.Add(this.buttonCalculate);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Jones Barbeque and Foot Massage";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
